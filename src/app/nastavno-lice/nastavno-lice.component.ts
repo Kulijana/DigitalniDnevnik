@@ -14,10 +14,7 @@ export class NastavnoLiceComponent implements OnInit {
   constructor(private predmetService: PredmetService) { }
 
   ngOnInit() {
-    console.log("Getujemo predmete");
     this.getPredmeti();
-    console.log("Getovali smo predmete");
-    console.log(this.predmeti.length);
   }
 
   getPredmeti(): void{
