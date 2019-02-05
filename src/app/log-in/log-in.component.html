@@ -23,13 +23,13 @@
           <form>
             <div class="form-group">
               <div class="form-label-group">
-                <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus">
+                <input [(ngModel)]="username" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="required" autofocus="autofocus" name="user">
                 <label for="inputEmail">Email address</label>
               </div>
             </div>
             <div class="form-group">
               <div class="form-label-group">
-                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="required">
+                <input [(ngModel)]="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="required" name="pass">
                 <label for="inputPassword">Password</label>
               </div>
             </div>
@@ -41,7 +41,7 @@
                 </label>
               </div>
             </div>
-            <a class="btn btn-primary btn-block" routerLink="/nastavnoLice">Login</a>
+            <a class="btn btn-primary btn-block" (click)="login()">Login</a>
           </form>
           <div class="text-center">
             <a class="d-block small mt-3" href="register.html">Register an Account</a>
