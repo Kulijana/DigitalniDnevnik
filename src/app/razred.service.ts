@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { RAZREDI } from './mok.razredi';
 import { Razred } from './razred';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';

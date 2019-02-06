@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { PREDMETI } from "./mock.predmeti";
 import { Observable, of } from 'rxjs';
 import { Predmet } from './predmet';
 import { HttpClient } from '@angular/common/http';

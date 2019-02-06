@@ -22,6 +22,7 @@ export class PredmetComponent implements OnInit {
   ucenik: string;
   prosek: number;
   ocena: number;
+  profId: number;
   constructor(
     private route: ActivatedRoute,
     private predmetService: PredmetService,
@@ -31,6 +32,11 @@ export class PredmetComponent implements OnInit {
 
   ngOnInit() {
     this.getPredmet();
+    this.getProfId();
+  }
+
+  getProfId(): void{
+    this.profId = +this.route.snapshot.paramMap.get('idProf');
   }
   getPredmet(): void{
     const id = +this.route.snapshot.paramMap.get('idPred');
