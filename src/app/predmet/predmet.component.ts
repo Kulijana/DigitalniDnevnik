@@ -33,45 +33,57 @@ export class PredmetComponent implements OnInit {
     this.getPredmet();
   }
   getPredmet(): void{
-    const name = this.route.snapshot.paramMap.get('name');
-    this.predmetService.getPredmet(name).
-    subscribe(predmet => this.predmet = predmet);
-    if(this.predmet.department.length !== 0){
-      this.updateRazred(this.predmet.department[0]);
-    }
-  }
-  updateRazred(name: string): void{
-    this.razredService.getRazred(name).
-    subscribe(razred => this.razred = razred);
-    if(this.razred.students.length !== 0){
-      this.updateRubrika(this.razred.students[0]);
-    }
+    const id = +this.route.snapshot.paramMap.get('idPred');
+    this.predmetService.getPredmet(id)
+      .subscribe(predmet => {
+        this.predmet = predmet;
+        if(predmet.department.length !==0)
+          this.updateRazred(predmet.department[0], predmet.name);
+      });
+
   }
 
-  updateRubrika(student: string): void{
-    this.ucenik = student;
-    this.updateOcene(student, this.predmet.name);
-  }
-
-  updateOcene(student: string, subject: string): void{
-    this.rubrikaOcenaService.getRubrika(student, subject)
-      .subscribe(rubrika => this.rubrikaOcena = rubrika);
-
-      if(this.rubrikaOcena){
-        this.prosek = this.rubrikaOcena.grades.reduce((first, next) => first + next) / this.rubrikaOcena.grades.length;
-        this.prosek = Math.round(this.prosek*100) / 100;
+  updateRazred(name: string, subject: string): void{
+    this.razredService.getRazredi().subscribe(
+      razredi => {
+        this.razred = razredi.find(razred => razred.name === name);
       }
+    );
   }
+
+
+  updateRubrika(name: string, subject: string): void{
+    this.ucenik = name;
+    this.rubrikaOcenaService.getRubrikeForStudent(name).subscribe( rubrike =>
+    {
+      this.rubrikaOcena = rubrike.find(rubrika => rubrika.subject === subject);
+      if(rubrike.find(rubrika => rubrika.subject === subject))
+        this.prosek = this.avg(rubrike.find(rubrika => rubrika.subject === subject).grades);
+    }
+
+    )
+  }
+
+  avg(numbers: number[]): number{
+    return Math.round((numbers.reduce((first, next) => first + next) / numbers.length) * 100) /100;
+  }
+
+  updateRubrikaManual(name: string): void{
+    this.updateRubrika(name, this.predmet.name);
+  }
+  
   addGrade(grade: number): void{
     if(grade > 5 || grade < 1)
       return;
     if(this.rubrikaOcena){
-      this.rubrikaOcenaService.addOcena(this.rubrikaOcena.student, this.rubrikaOcena.subject, grade);
-      this.updateRubrika(this.rubrikaOcena.student);
+      this.rubrikaOcena.grades.push(+grade);
+      this.rubrikaOcenaService.addOcena(this.rubrikaOcena).subscribe();
+      this.updateRubrika(this.rubrikaOcena.student, this.predmet.name);
     }
     else{
-     this.rubrikaOcenaService.createRubrika(this.ucenik, this.predmet.name, grade)
-     .subscribe(rubrika => this.updateRubrika(rubrika.student));
+      this.rubrikaOcena = {student: this.ucenik, subject: this.predmet.name, grades: [+grade], id:0}
+     this.rubrikaOcenaService.createRubrika(this.rubrikaOcena)
+     .subscribe(rubrika => this.updateRubrika(this.ucenik, this.predmet.name));
     }
   }
 

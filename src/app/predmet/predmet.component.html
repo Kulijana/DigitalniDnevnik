@@ -117,7 +117,7 @@
                     <td>
                       <div class="form-group" *ngIf="razred">
 
-                        <select class="btn btn-primary dropdown-toggle form-control" #f id="sel2" (change)="updateRubrika(f.value)">
+                        <select class="btn btn-primary dropdown-toggle form-control" #f id="sel2" (change)="updateRubrikaManual(f.value)">
                           <option *ngFor="let student of razred.students" [value]="student">{{student}}</option>
                         </select>
                       </div>
@@ -129,7 +129,7 @@
                     </td>
                     <td>
                       <div class="input-group">
-                        <input [(ngModel)]="ocena" type="text" class="form-control" placeholder="Unesite ocenu">
+                        <input [(ngModel)]="ocena" type="text" class="form-control" placeholder="Unesite ocenu" name="ocenaInput">
                         <span class="input-group-btn">
                           <button class="btn btn-primary" type="button" (click)="addGrade(ocena)">Unos</button>
                         </span>

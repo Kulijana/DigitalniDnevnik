@@ -2,19 +2,41 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { RAZREDI } from './mok.razredi';
 import { Razred } from './razred';
+import { catchError, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RazredService {
 
-  constructor() { }
+  private razrediUrl = '/app/razredi';
+  constructor(private http: HttpClient) { }
+
+ /**
+ * Handle Http operation that failed.
+ * Let the app continue.
+ * @param operation - name of the operation that failed
+ * @param result - optional value to return as the observable result
+ */
+private handleError<T>(operation = 'operation', result?: T) {
+  return (error: any): Observable<T> => {
+
+    // TODO: send the error to remote logging infrastructure
+    console.error(error); // log to console instead
+
+    // TODO: better job of transforming error for user consumption
+
+    // Let the app keep running by returning an empty result.
+    return of(result as T);
+  };
+}
 
   getRazredi(): Observable<Razred[]>{
-    return of(RAZREDI);
+    return this.http.get<Razred[]>(this.razrediUrl)
+    .pipe(
+      catchError(this.handleError('getRazredi',[]))
+    );
   }
 
-  getRazred(name: string): Observable<Razred>{
-    return of(RAZREDI.find(razred => name === razred.name));
-  }
 }

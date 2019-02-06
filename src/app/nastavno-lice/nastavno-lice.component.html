@@ -70,7 +70,7 @@
             <li class="breadcrumb-item">
               <a href="#">Dashboard</a>
             </li>
-            <li class="breadcrumb-item active">Petar Petrović</li>
+            <li class="breadcrumb-item active">{{nastavnik.name}}</li>
           </ol>
 
           <!-- Icon Cards-->
@@ -138,7 +138,7 @@
                             <td>{{predmet.name}}</td>
                             <td>{{predmet.department}}</td>
                             <td>{{predmet.studentNumber}}</td>
-                            <td><button type="button" class="btn btn-primary btn-block" routerLink="/predmet/{{predmet.name}}">Pregled predmeta</button></td>
+                            <td><button type="button" class="btn btn-primary btn-block" routerLink="/predmet/{{nastavnik.id}}/{{predmet.id}}">Pregled predmeta</button></td>
                       </tr>
                   </tbody>
                 </table>

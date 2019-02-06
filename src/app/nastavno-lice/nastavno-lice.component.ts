@@ -20,18 +20,18 @@ export class NastavnoLiceComponent implements OnInit {
     private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getPredmeti();
+    this.getNastavnik();
   }
 
   getNastavnik(): void{
     const id = +this.route.snapshot.paramMap.get('id');
     this.nastavnikService.getNastavnik(id).subscribe((nastavnik) => {
       this.nastavnik = nastavnik;
-      //this.getOcene(ucenik.name);
+      this.getPredmeti(nastavnik.name);
     });
   }
-  getPredmeti(): void{
-    this.predmetService.getPredmeti()
+  getPredmeti(name: string): void{
+    this.predmetService.getPredmetiForNastavnik(name)
       .subscribe(predmeti => this.predmeti = predmeti);
   }
 
